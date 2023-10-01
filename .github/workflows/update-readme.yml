@@ -1,0 +1,28 @@
+name: Update README
+
+on:
+  schedule:
+    - cron: '0 0 */30 * *' # 每30天运行一次
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Update README
+      run: |
+        # 从 README 文件中提取第一行的数字
+        current_value=$(grep -m 1 -oP '^\d+' README.md)
+        
+        # 将数字加一
+        new_value=$((current_value + 1))
+        
+        # 替换 README 文件中的第一行数字
+        sed -i "1s/$current_value/$new_value/" README.md
+        
+        # 将更改提交回存储库
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Update README.md"
+        git push
