@@ -2,7 +2,7 @@ name: Update README
 
 on:
   schedule:
-    - cron: '0 0 */10 * *' 
+    - cron: '0 0 */5 * *' 
 jobs:
   update-readme:
     runs-on: ubuntu-latest
@@ -14,18 +14,8 @@ jobs:
       run: |
         
         current_value_line1=$(grep -m 1 -oP '^\d+' README.md)
-        current_value_line2=$(grep -m 2 -oP '^\d+(\.\d+)?' README.md | tail -n 1)
-        
-        
         new_value_line1=$((current_value_line1 + 1))
-        
-        
-        new_value_line2=$(echo "$current_value_line2 + 1" | bc)
-        
-        
         sed -i "1s/$current_value_line1/$new_value_line1/" README.md
-        sed -i "2s/$current_value_line2/$new_value_line2/" README.md
-        
         
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
