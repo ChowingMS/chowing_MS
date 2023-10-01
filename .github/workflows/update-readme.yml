@@ -1,0 +1,33 @@
+name: Update README
+
+on:
+  schedule:
+    - cron: '0 0 */10 * *' # 每10天运行一次
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Update README
+      run: |
+        # 从 README 文件中提取第一行的整数和第二行的浮点数
+        current_value_line1=$(grep -m 1 -oP '^\d+' README.md)
+        current_value_line2=$(grep -m 2 -oP '^\d+(\.\d+)?' README.md | tail -n 1)
+        
+        # 将第一行整数加一
+        new_value_line1=$((current_value_line1 + 1))
+        
+        # 将第二行浮点数加一
+        new_value_line2=$(echo "$current_value_line2 + 1" | bc)
+        
+        # 替换 README 文件中的第一行整数和第二行浮点数
+        sed -i "1s/$current_value_line1/$new_value_line1/" README.md
+        sed -i "2s/$current_value_line2/$new_value_line2/" README.md
+        
+        # 将更改提交回存储库
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "Update README.md"
+        git push
