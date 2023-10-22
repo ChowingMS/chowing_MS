@@ -3,7 +3,7 @@ name: Update README
 on:
   push:
     paths:
-      - .github/workflows/update-readme.yml # 只有在 .github/workflows/update-readme.yml
+      - .github/workflows/update-readme.yml
   schedule:
     - cron: '0 0 */5 * *' # 每5天运行一次
 
