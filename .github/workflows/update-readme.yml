@@ -10,8 +10,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      with:
-        ref: v2 # 使用 actions/checkout@v2 的最新版本
 
     - name: Update README
       runs-on: ubuntu-latest
