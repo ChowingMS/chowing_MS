@@ -10,18 +10,9 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-      with:
-        ref: v2 # 使用 actions/checkout@v2 的最新版本
 
-    - name: Update README
-      runs-on: ubuntu-latest
-      steps:
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16
-      - name: Update Step
-        run: |
+    - name: Update Step
+      run: |
           # 从 README 文件中提取第一行的整数
           current_value=$(grep -m 1 -oP '^\d+' README.md)
           
@@ -34,5 +25,5 @@ jobs:
           # 将更改提交回存储库
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -m "Update README.md"  
+          git commit -m "Update README.md"
           git push
